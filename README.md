@@ -6,6 +6,7 @@ Php class to make simple curl request. Can use as code igniter library or as php
 ## Geting started 
 ### - As PHP Class
 ![PHP](https://github.com/geronimo794/php-simple-curl-class/blob/master/images/php-logo.png?raw=true)
+
 **Step 1** :
 Download the curl class here [here](https://raw.githubusercontent.com/geronimo794/php-simple-curl-class/master/Curl.php) 
 
@@ -51,6 +52,7 @@ Download the curl class here [here](https://raw.githubusercontent.com/geronimo79
 
 **Step 2** : Put the class file to Code Igniter library
 ![Getting Started 1](https://github.com/geronimo794/php-simple-curl-class/blob/master/images/getting-started-1.jpg?raw=true)
+
 **Step 3** : Load curl library in your controller
 ```php
 $this->load->library('curl');
