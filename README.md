@@ -93,6 +93,7 @@ $curl_respon = $this->curl->getResponse();
 - **setGetData( $name, $value )** : Set the get data
 - **setGetData( array( $name => $value ) )** : Set the get data
 - **getResponse()** : Get response from curl
+
 ## Changelogs
 Version 1.0.0
 - setData, setUrl, setUserAgent, clear, getResponse.
