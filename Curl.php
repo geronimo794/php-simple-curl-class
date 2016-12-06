@@ -19,6 +19,8 @@ class Curl {
 	private $postdata;
 	private $getdata;
 	private $userAgent;
+	private $referer;
+	private $additionalOpt;
 
 	/**
 	* Defining the default value of variable
@@ -31,16 +33,29 @@ class Curl {
 	*/
 	public function clear(){
 		$this->url = '';
-		$this->postdata = array();
-		$this->getdata = array();
+		$this->postdata = [];
+		$this->getdata = [];
 		$this->userAgent = '';
+		$this->referer = '';
+		$this->additionalOpt = [];
 	}
-	
 	/**
 	*
 	* MAIN METHOD OF SET
 	*
 	*/
+	/**
+	* Set the additional option of curl
+	*/
+	public function setOption($opt, $value = 0){
+		if(is_array($opt)){
+			foreach($opt as $dataName => $dataValue){
+				$this->additionalOpt[$dataName] = $dataValue;
+			}
+		}else{
+			$this->additionalOpt[$opt] = $value;
+		}
+	}
 	/**
 	* Set url of curl
 	*/
@@ -51,7 +66,13 @@ class Curl {
 	* Set useragentname of curl
 	*/
 	public function setUserAgent($userAgentInput){
-		$this->userAgent= $useragentInput;
+        $this->userAgent= $useragentInput;
+    }
+    /**
+    * Set referer of curl
+    */
+    public function setReferer($refererInput){
+        $this->referer = $refererInput;
 	}
 	/**
 	* Set postdata of curl to send
@@ -105,8 +126,8 @@ class Curl {
 	/**
 	* Get the curl option value
 	*/
-	private function getOptionValue(){
-		$options = array();
+	private function getOptionValue(){		
+		$options = $this->additionalOpt;
 		
 		$options[CURLOPT_RETURNTRANSFER] = 1;
 		$options[CURLOPT_URL] = $this->url.$this->collectGetData();
@@ -114,7 +135,10 @@ class Curl {
 		if(!empty($this->userAgent)){
 			$options[CURLOPT_USERAGENT] = $this->userAgent;
 		}
-		
+        if(!empty($this->referer)){
+            $options[CURLOPT_REFERER] = $this->referer;
+        }
+
 		$postData = $this->collectPostData();
 		if(!empty($postData)){
 			$options[CURLOPT_POST] = 1;
