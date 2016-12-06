@@ -93,7 +93,12 @@ $curl_respon = $this->curl->getResponse();
 - **setGetData( $name, $value )** : Set the get data
 - **setGetData( array( $name => $value ) )** : Set the get data
 - **getResponse()** : Get response from curl
+- **setOption( array( CURL_OPT => CURL_OPT_VAL ) )** *(06-12-2016)* : Set the additional value for curl options with array
+- **setOption( CURL_OPT, CURL_OPT_VAL )** *(06-12-2016)* : Set the additional value for curl options with single option and value
 
 ## Changelogs
 Version 1.0.0
 - setData, setUrl, setUserAgent, clear, getResponse.
+
+Version 1.0.1 *(06-12-2012)*
+- Add new method setOption.
