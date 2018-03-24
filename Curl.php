@@ -17,10 +17,13 @@ class Curl {
 	*/
 	private $url;
 	private $postdata;
-	private $getdata;
+    private $getdata;
+    private $body;
+    private $headerdata;
 	private $userAgent;
 	private $referer;
-	private $additionalOpt;
+    private $additionalOpt;
+    private $request_method;
 
 	/**
 	* Defining the default value of variable
@@ -34,10 +37,13 @@ class Curl {
 	public function clear(){
 		$this->url = '';
 		$this->postdata = [];
-		$this->getdata = [];
+        $this->getdata = [];
+        $this->body = null;
+        $this->headerdata = '';
 		$this->userAgent = '';
 		$this->referer = '';
-		$this->additionalOpt = [];
+        $this->additionalOpt = [];
+        $this->request_method = '';
 	}
 	/**
 	*
@@ -98,7 +104,30 @@ class Curl {
 			$this->getdata[$name] = $value;
 		}
 	}
-	
+	/**
+     * Set header data of curl request
+     */
+    public function setHeaderData($name, $value = 0){
+		if(is_array($name)){
+			foreach($name as $dataName => $dataValue):
+				$this->headerdata[] = $dataName.': '.$dataValue ;
+			endforeach;
+		}else{
+            $this->headerdata[] = $name.': '.$value ;
+		}
+    }
+    /**
+     * Set the body data without fields array
+     */
+    public function setBody($inp_body){
+        $this->body = $inp_body;
+    }
+    /**
+     * Set the request method of the curl request
+     */
+    public function setRequestMethod($inp_method){
+        $this->request_method = $inp_method;
+    }
 	/**
 	*
 	* MAIN METHOD OF GET
@@ -138,12 +167,20 @@ class Curl {
         if(!empty($this->referer)){
             $options[CURLOPT_REFERER] = $this->referer;
         }
-
+        if(!empty($this->headerdata)){
+            $options[CURLOPT_HTTPHEADER] = $this->headerdata;           
+        }
 		$postData = $this->collectPostData();
 		if(!empty($postData)){
 			$options[CURLOPT_POST] = 1;
 			$options[CURLOPT_POSTFIELDS] = $postData;
-		}
+        }
+        if(!empty($this->body)){
+            $options[CURLOPT_POSTFIELDS] = $this->body;
+        }
+        if(!empty($this->request_method)){
+            $options[CURLOPT_CUSTOMREQUEST] = $this->request_method;
+        }
 		
 		return $options;
 	}
