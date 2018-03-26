@@ -95,6 +95,15 @@ $curl_respon = $this->curl->getResponse();
 - **getResponse()** : Get response from curl
 - **setOption( array( CURL_OPT => CURL_OPT_VAL ) )** *(06-12-2016)* : Set the additional value for curl options with array
 - **setOption( CURL_OPT, CURL_OPT_VAL )** *(06-12-2016)* : Set the additional value for curl options with single option and value
+New method Version 1.2.0
+- **setHeaderData( array( $name => $value ) )** : Set header data for the curl request with array
+- **setHeaderData( $name, $value )** : Set header data for the curl request with name and value of header data
+- **setBody( $requestBody )** : Set the body of the curl request, it's usefull when you want to send json data through request body
+- **setRequestMethod( $requestMethod )** : Set curl request method it can be GET, POST, PUT, DELETE
+- **getInstance()** : Get the current instance of the curl for the multiple curl request
+- **getResponseMultiInit( $curlInstance = [] )** : Its use for curl multiple instance initiation request, so you can multiple curl request at once 
+
+
 
 ## Changelogs
 Version 1.0.0
@@ -102,3 +111,6 @@ Version 1.0.0
 
 Version 1.0.1 *(06-12-2012)*
 - Add new method setOption.
+
+Version 1.2.0 *(24-03-2018)*
+- Add new method setHeaderData, setBody, setRequestMethod, getInstance, and getResponseMultiInit.

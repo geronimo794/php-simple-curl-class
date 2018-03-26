@@ -1,10 +1,9 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
-
+<?php
 /**
  * CodeIgniter Curl Class
  *
  *
- * @package        	PHP, CodeIgniter
+ * @package        	PHP, Phalcon
  * @subpackage    	Class, Libraries
  * @category    	Class, Libraries
  * @author        	Achmad Rozikin
@@ -23,7 +22,8 @@ class Curl {
 	private $userAgent;
 	private $referer;
     private $additionalOpt;
-    private $request_method;
+    private $requse_method;
+    private $multi_init_curl;
 
 	/**
 	* Defining the default value of variable
@@ -44,6 +44,7 @@ class Curl {
 		$this->referer = '';
         $this->additionalOpt = [];
         $this->request_method = '';
+        $this->multi_init_curl = null;
 	}
 	/**
 	*
@@ -145,8 +146,43 @@ class Curl {
 		}
 		curl_close($curl);
 		return $response_curl;
-	}
-	
+    }
+    /**
+     * The the instansce of the curl to make it as 
+     */
+	public function getInstance(){
+        $curl = curl_init();
+		curl_setopt_array($curl, $this->getOptionValue());
+        return $curl;
+    }
+    /**
+     * Curl multi init add curl instance
+     */
+    public function getResponseMultiInit($inp_curl = []){
+        $multi_init_curl = curl_multi_init();
+        foreach($inp_curl as $per_curl){
+            curl_multi_add_handle($multi_init_curl, $per_curl);
+        }
+        $active = null;
+        // Execute the handles
+        do{
+            $mrc = curl_multi_exec($multi_init_curl, $active);
+        }while($mrc == CURLM_CALL_MULTI_PERFORM);
+
+        while ($active && $mrc == CURLM_OK) {
+            if (curl_multi_select($multi_init_curl) == -1) {
+                usleep(100);
+            }
+            do {
+                $mrc = curl_multi_exec($multi_init_curl, $active);
+            } while ($mrc == CURLM_CALL_MULTI_PERFORM);
+        }
+        // Close the handles
+        foreach($inp_curl as $per_curl){
+            curl_multi_remove_handle($multi_init_curl, $per_curl);
+        }
+        curl_multi_close($multi_init_curl);
+    }
 	/**
 	*
 	* PRIVATE METHOD TO HANDLE THE OPTIONS VALUES
