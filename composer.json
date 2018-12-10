@@ -1,0 +1,13 @@
+{
+    "name": "geronimo794/php-simple-curl-class",
+	"description": "Simple curl class helper",
+	"license": "MIT",
+	"type": "helpers",
+	"version": "1.0.0",
+    "require": {
+		"php": "^5.6.37 || ^7.0" 
+	},
+	"autoload": {
+        "files": ["Curl.php"]
+    }
+}
