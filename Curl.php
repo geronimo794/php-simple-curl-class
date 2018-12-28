@@ -39,7 +39,7 @@ class Curl {
 		$this->postdata = [];
         $this->getdata = [];
         $this->body = null;
-        $this->headerdata = '';
+        $this->headerdata = [];
 		$this->userAgent = '';
 		$this->referer = '';
         $this->additionalOpt = [];
