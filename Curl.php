@@ -72,7 +72,7 @@ class Curl {
 	/**
 	* Set useragentname of curl
 	*/
-	public function setUserAgent($userAgentInput){
+	public function setUserAgent($useragentInput){
         $this->userAgent= $useragentInput;
     }
     /**
